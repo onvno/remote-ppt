@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Remote PPT</title>
+  <script src="/jquery-3.2.1.min.js"></script>
+  <script src="/jquery.mobile-1.5.0-alpha.1.min.js"></script>
+  <style>
+  html, body { padding: 0; margin: 0; }
+  div.box {
+    width: 100%;
+    height: 100%;
+    /* background-color: #FE4365; */
+    /* background-color: #3EBCCA; */
+    background-color: rgb(100, 181, 231);
+    text-align: center;
+    line-height: 300px;
+    font-size:50px;
+    color: #fff;
+    font-weight: lighter;
+    user-select: none;
+    box-sizing: border-box;
+    padding-top: 10%;
+  }
+  div.box.swipe {
+    background-color: #7ACEF4;
+  }
+  body{
+      width:100%;
+      height:100%;
+      overflow-y: hidden;
+      position: fixed; 
+      font-family:
+/* 1 */ -apple-system, BlinkMacSystemFont,
+/* 2 */ "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
+/* 3 */ "Helvetica Neue", sans-serif;
+  }
+  .slide.left{
+    position: absolute;
+    left:0;
+    bottom:10%;
+    /* margin-top: -15px; */
+  }
+  .slide.right{
+    position: absolute;
+    right:0;
+    bottom:10%;
+    /* margin-top: -15px; */
+  }
+  </style>
+</head>
+<body>
+ 
+<div class="box">- Remote -</div>
+<svg t="1536486462839" class="slide left icon" style="" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1818" xmlns:xlink="http://www.w3.org/1999/xlink" width="30" height="30"><defs><style type="text/css"></style></defs><path d="M713.728 58.50624L273.78176 493.92128a25.26208 25.26208 0 0 0 0 35.98848l439.94624 435.42528a25.89696 25.89696 0 0 0 36.352 0 25.25696 25.25696 0 0 0 0-35.98336L328.32 511.9232l421.76-417.4336a25.26208 25.26208 0 0 0 0-35.98336 25.89696 25.89696 0 0 0-36.352 0z" p-id="1819" fill="#ffffff"></path></svg>
+<svg t="1536486444635" class="slide right  icon" style="" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1554" xmlns:xlink="http://www.w3.org/1999/xlink" width="30" height="30"><defs><style type="text/css"></style></defs><path d="M310.11328 58.50624l439.94624 435.42016a25.25696 25.25696 0 0 1 0 35.98336l-439.94624 435.42528a25.89696 25.89696 0 0 1-36.352 0 25.2672 25.2672 0 0 1 0-35.98848l421.74976-417.42848-421.74976-417.42848a25.26208 25.26208 0 0 1 0-35.98336 25.89696 25.89696 0 0 1 36.352 0z" p-id="1555" fill="#ffffff"></path></svg>
+ 
+<script>
+$(function(){
+  const bodyHeight = $('body').height();
+  $('.box').height(bodyHeight)
+  // .css({'line-height': bodyHeight + 'px', 'padding-bottom': '10%'})
+
+  const wsPort   = window.location.search.split('=')[1]
+  const hostName = window.location.hostname;
+  const wsUri = `ws://${hostName}:${wsPort}`; 
+  const ws = new WebSocket(wsUri);
+
+  ws.onopen = () => {
+      $( "div.box" ).on( "swipeleft", showNext );
+      $( "div.box" ).on( "swiperight", showPrev );
+      $( ".right").on('click', showNext);
+      $( ".left").on('click', showPrev);
+  }
+
+  // ws.onmessage = (evt) => {
+  //     contDOM.innerHTML = evt.data
+  // }
+
+  function showNext() {
+    ws.send('next');
+    $('.box').html('下一页');
+    $('.box').animate({
+        "opacity": 0.5,
+    }, 700, function() {
+      $('.box').css({
+            "background-color": getRandomColor(),
+            "opacity": 1
+        }).html('展示中');
+    })
+  }
+
+  function showPrev() {
+    ws.send('prev');
+    $('.box').html('上一页');
+    $('.box').animate({
+        "opacity": 0.5,
+    }, 800, function() {
+      $('.box').css({
+            "background-color": getRandomColor(),
+            "opacity": 1
+        }).html('展示中');
+    })
+  }
+
+  function animate() {
+
+  }
+
+  function getRandomColor(){
+    return  '#' +
+        (function(color){
+        return (color +=  '0123456789abcdef'[Math.floor(Math.random()*16)])
+        && (color.length == 6) ?  color : arguments.callee(color);
+    })('');
+    }
+})
+</script>
+ 
+</body>
+</html>
