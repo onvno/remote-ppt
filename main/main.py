@@ -50,8 +50,10 @@ class SocketServer(QtCore.QObject):
                 os.system("""osascript -e 'tell app "System Events" to key code 126'""")
             elif message == 'next':
                 os.system("""osascript -e 'tell app "System Events" to key code 125'""")
-            else:
-                pass
+            elif message == 'start':
+                os.system("""osascript -e 'tell application "Keynote" to key code {58,55,35}'""")
+            elif message == 'end':
+                os.system("""osascript -e 'tell application "Keynote" to key code {58,55,35}'""")
             # 此处部分情况下会报错，先暂时不做返回处理
             # self.clientConnection.sendTextMessage(message)
 

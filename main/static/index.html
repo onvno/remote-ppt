@@ -48,11 +48,23 @@
     bottom:10%;
     /* margin-top: -15px; */
   }
+  #start{
+    position: absolute;
+    left:10px;
+    top:10px;
+    width:100px;
+    height:50px;
+    background-color: #fff;
+    color:#666;
+    line-height: 50px;
+    text-align: center;
+    border-radius:5px;
+  }
   </style>
 </head>
 <body>
- 
 <div class="box">- Remote -</div>
+<div id="start">Start</div>>
 <svg t="1536486462839" class="slide left icon" style="" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1818" xmlns:xlink="http://www.w3.org/1999/xlink" width="30" height="30"><defs><style type="text/css"></style></defs><path d="M713.728 58.50624L273.78176 493.92128a25.26208 25.26208 0 0 0 0 35.98848l439.94624 435.42528a25.89696 25.89696 0 0 0 36.352 0 25.25696 25.25696 0 0 0 0-35.98336L328.32 511.9232l421.76-417.4336a25.26208 25.26208 0 0 0 0-35.98336 25.89696 25.89696 0 0 0-36.352 0z" p-id="1819" fill="#ffffff"></path></svg>
 <svg t="1536486444635" class="slide right  icon" style="" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1554" xmlns:xlink="http://www.w3.org/1999/xlink" width="30" height="30"><defs><style type="text/css"></style></defs><path d="M310.11328 58.50624l439.94624 435.42016a25.25696 25.25696 0 0 1 0 35.98336l-439.94624 435.42528a25.89696 25.89696 0 0 1-36.352 0 25.2672 25.2672 0 0 1 0-35.98848l421.74976-417.42848-421.74976-417.42848a25.26208 25.26208 0 0 1 0-35.98336 25.89696 25.89696 0 0 1 36.352 0z" p-id="1555" fill="#ffffff"></path></svg>
  
@@ -72,6 +84,9 @@ $(function(){
       $( "div.box" ).on( "swiperight", showPrev );
       $( ".right").on('click', showNext);
       $( ".left").on('click', showPrev);
+      $( "#start" ).on('click', function(){
+        ws.send('start')
+      })
   }
 
   // ws.onmessage = (evt) => {
